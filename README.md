@@ -1,0 +1,1 @@
+# bible_ppt_class
