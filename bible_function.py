@@ -1,6 +1,10 @@
 import pickle
 from re import compile
 
+# # 업데이트 사항
+# - 따옴표 그룹 추가
+# 편 추가
+
 ## Load pickle
 with open("bible_list.pickle", "rb") as fr:
     bible_list = pickle.load(fr)
@@ -24,8 +28,9 @@ def abbreviation(book):
 
 # 정규식 파싱 함수
 def parse_paragraph(paragraph):
+    # 장 + 편 추가
     regex = compile(
-        "(?P<book>[ㄱ-ㅣ가-힣]+)\s*(?P<chapter>[0-9]+):?장?\s*(?P<verse_start>[0-9]+)-*(?P<verse_end>[0-9]+)*절?"
+        "(?P<book>[ㄱ-ㅣ가-힣]+)\s*(?P<chapter>[0-9]+):?장?편?\s*(?P<verse_start>[0-9]+)-*(?P<verse_end>[0-9]+)*절?"
     )
     parsed_paragraph = regex.search(paragraph)
     book = parsed_paragraph.group("book")
@@ -50,14 +55,20 @@ def dict_contents(book, chapter, verse_start, verse_end):
             and b[2] <= int(verse_end)
         ]
         verses = range(int(verse_start), int(verse_end) + 1)
-        keys = [f"{bookDict[book]} {chapter}장 {i}절" for i in verses]
+        if book == "시":  # 시편일 경우 "편"으로 추가
+            keys = [f"{bookDict[book]} {chapter}편 {i}절" for i in verses]
+        else:
+            keys = [f"{bookDict[book]} {chapter}장 {i}절" for i in verses]
     else:  # 한구절만 있을 때
         search_result = [
             b[3]
             for b in bible_list
-            if b[0] == book and b[1] == chapter and b[2] == verse_start
+            if b[0] == book and b[1] == int(chapter) and b[2] == int(verse_start)
         ]
-        keys = [f"{bookDict[book]} {chapter}장 {verse_start}절"]
+        if book == "시":  # 시편일 경우 "편"으로 추가
+            keys = [f"{bookDict[book]} {chapter}편 {verse_start}절"]
+        else:
+            keys = [f"{bookDict[book]} {chapter}장 {verse_start}절"]
     contentsDict = dict(zip(keys, search_result))
     return keys, contentsDict
 
@@ -71,7 +82,8 @@ def parsing_contents(raw):
         main_verse
     )
 
-    regex = compile(r"●(.*?)\n ?“(.*?)”")
+    # 따옴표 "󰡒"(기호 안보임) 추가"
+    regex = compile(r"●(.*?)\n ?[“󰡒󰡒](.*?)[”󰡓󰡓]")
     all_p = regex.findall(raw)
 
     resultList = list()
@@ -117,7 +129,8 @@ def extract_main_verse(raw):
 
 # parsing_contents 중 비엄격 결과리스트로 반환 (subtitle, text)
 def copy_contents(raw):
-    regex = compile(r"●(.*?)\..*?\n.*?“(.*?)”")
+    # 따옴표 "󰡒"(기호 안보임) 추가"
+    regex = compile(r"●(.*?)\..*?\n.*?[“󰡒](.*?)[”󰡓]")
     all_p = regex.findall(raw)
 
     resultList = list()

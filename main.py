@@ -26,6 +26,7 @@ class Form(QDialog):
         self.button3 = QPushButton("본문 입력")
         self.button4 = QPushButton("두번째 찬송가 입력")
         self.button5 = QPushButton("전환애니메이션 추가")
+        self.button6 = QPushButton("교독문:인도자회중 추가 Beta")
         # Create layout and add widgets
         layout = QVBoxLayout()
         layout.addWidget(self.button0)
@@ -42,6 +43,7 @@ class Form(QDialog):
         layout.addWidget(self.input4)
         layout.addWidget(self.button4)
         layout.addWidget(self.button5)
+        layout.addWidget(self.button6)
 
         # Set dialog layout
         self.setLayout(layout)
@@ -52,6 +54,7 @@ class Form(QDialog):
         self.button3.clicked.connect(self.script3)
         self.button4.clicked.connect(self.script4)
         self.button4.clicked.connect(self.script5)
+        self.button6.clicked.connect(self.script6)
 
     def script0(self):
         path = "c:\\Users\\Administrator\\Desktop\\WorkSpace\\pyPptx\\오전예배 (16x9)_2021_base.pptx"
@@ -81,6 +84,10 @@ class Form(QDialog):
 
     def script5(self):
         self.src_ppt.change_transition()
+        pass
+
+    def script6(self):
+        bible_class.responsive_reading_add(src_ppt=self.src_ppt, section_index=3)
         pass
 
 

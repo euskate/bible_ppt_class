@@ -352,8 +352,9 @@ def responsive_reading_copy(re_no, src_ppt, section_index=3):
     """
     # DIR = "C:\\Users\\Administrator\\Desktop\\WorkSpace\\pyPptx\\교독문_확대"
     # file_name = [file for file in listdir(DIR) if file[:3] == f"{str(re_no).zfill(3)}"][0]
-    DIR = "C:\\Users\\Administrator\\Desktop\\WorkSpace\\pyPptx\\교독문_16x9"
-    file_name = f"교독문{re_no}.pptx"
+    DIR = "C:\\Users\\Administrator\\Desktop\\WorkSpace\\pyPptx\\교독문\\주의길_교독문"
+    f_re_no = int(re_no)
+    file_name = f"주의길_새교독문{f_re_no:03d}번.pptx"
 
     print(file_name)
     path = f"{DIR}\\{file_name}"
@@ -369,17 +370,53 @@ def responsive_reading_copy(re_no, src_ppt, section_index=3):
 
     print(first_slide)
     sleep(1)
-    src_ppt.del_section(first_slide + 1, section_count - 1)
+    src_ppt.del_section(first_slide, section_count - 1)
     ### 복사 붙여넣기
     sleep(1)
     print("src_ppt 슬라이드 삽입위치", first_slide)
-    src_ppt.app.Windows(2).View.GotoSlide(first_slide)
-    src_ppt.app.Windows(2).Activate()  # 이전 창(소스ppt) 활성화
+    src_ppt.app.Windows(1).View.GotoSlide(first_slide)
+    src_ppt.app.Windows(1).Activate()  # 이전 창(소스ppt) 활성화
     src_ppt.app.CommandBars.ExecuteMso("PasteSourceFormatting")  # 원본소스유지 붙여넣기
     ###
     # src_ppt.paste_slide(first_slide + 1)
     # ppt.copy_desgin_slide(src_ppt.prs, first_slide + 1)
     ppt.prs.Close()
+
+
+# 교독문:인도자회중 추가 Beta 함수
+def responsive_reading_add(src_ppt, section_index=3):
+    """
+    인도자, 회중, 텍스트 상자 추가
+    section_index : 구역순서 { '교독문' : 3  }
+    """
+    first_slide, section_count = src_ppt.get_section_number(section_index)
+    for slide in range(first_slide + 2, first_slide + section_count - 1):
+        tmpbox1 = (
+            src_ppt.prs.Slides(slide)
+            .Shapes.AddTextbox(
+                1,
+                Left=20,
+                Top=65,
+                Width=75,
+                Height=50,
+            )
+            .TextFrame.TextRange
+        )
+        tmpbox1.Text = "인도자"
+        tmpbox1.Font.Bold = True
+        tmpbox2 = (
+            src_ppt.prs.Slides(slide)
+            .Shapes.AddTextbox(
+                1,
+                Left=20,
+                Top=200,
+                Width=75,
+                Height=50,
+            )
+            .TextFrame.TextRange
+        )
+        tmpbox2.Text = "회중"
+        tmpbox2.Font.Bold = True
 
 
 # 찬양 복사 함수
