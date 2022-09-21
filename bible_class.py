@@ -19,13 +19,9 @@ from bible_function import (
 )
 from bible_ppt import make_ppt_text, SAVEFILE_NAME
 
-path = (
-    "c:\\Users\\Administrator\\Desktop\\WorkSpace\\pyPptx\\오전예배 (16x9)_2021_base.pptx"
-)
-
-hymn1_path = (
-    "C:\\Users\\Administrator\\Desktop\\WorkSpace\\pyPptx\\새찬송가16x9\\NHymn016h_Wide.PPT"
-)
+RESPONSIVE_READING_PATH = "C:\\Users\\giveroot\\Documents\\주의길PPT\\교독문\\주의길_교독문"
+HYMN_PATH = "C:\\Users\\giveroot\\Documents\\주의길PPT\\새찬송가16x9"
+SLEEP_TIME = 0.3
 
 
 class Powerpoint:
@@ -249,7 +245,7 @@ def hwp(hwp_path):
     hwp = win32com.client.gencache.EnsureDispatch("HWPFrame.HwpObject")
     hwp.RegisterModule("FilePathCheckDLL", "SecurityModule")
     hwp.Open(hwp_path)
-    sleep(2)
+    sleep(SLEEP_TIME)
     hwp.Run("SelectAll")
     hwp.Run("Copy")
 
@@ -352,14 +348,14 @@ def responsive_reading_copy(re_no, src_ppt, section_index=3):
     """
     # DIR = "C:\\Users\\Administrator\\Desktop\\WorkSpace\\pyPptx\\교독문_확대"
     # file_name = [file for file in listdir(DIR) if file[:3] == f"{str(re_no).zfill(3)}"][0]
-    DIR = "C:\\Users\\Administrator\\Desktop\\WorkSpace\\pyPptx\\교독문\\주의길_교독문"
+
     f_re_no = int(re_no)
     file_name = f"주의길_새교독문{f_re_no:03d}번.pptx"
 
-    print(file_name)
-    path = f"{DIR}\\{file_name}"
+    path = f"{RESPONSIVE_READING_PATH}\\{file_name}"
 
-    print("경로 : ", path)
+    # print(file_name)
+    # print("경로 : ", path)
     ppt = Powerpoint()
     ppt.init_app()
     ppt.open_prs(path)
@@ -368,11 +364,11 @@ def responsive_reading_copy(re_no, src_ppt, section_index=3):
     # src_ppt.prs.Slides.Range(10).Select()
     # src_ppt.prs.Slides.Paste(10)
 
-    print(first_slide)
-    sleep(1)
-    src_ppt.del_section(first_slide, section_count - 1)
+    # print(first_slide)
+    sleep(SLEEP_TIME)
+    src_ppt.del_section(first_slide + 1, section_count - 1)
     ### 복사 붙여넣기
-    sleep(1)
+    sleep(SLEEP_TIME)
     print("src_ppt 슬라이드 삽입위치", first_slide)
     src_ppt.app.Windows(1).View.GotoSlide(first_slide)
     src_ppt.app.Windows(1).Activate()  # 이전 창(소스ppt) 활성화
@@ -427,29 +423,28 @@ def hymn_copy(hymn_number, src_ppt, section_index):
         hymn_number : 새찬송가 번호
         src_ppt : 소스 ppt
     """
-    HYMN_DIR = "C:\\Users\\Administrator\\Desktop\\WorkSpace\\pyPptx\\새찬송가16x9"
-    hymn_path = f"{HYMN_DIR}\\NHymn{str(hymn_number).zfill(3)}h_Wide.PPT"
+    hymn_path = f"{HYMN_PATH}\\NHymn{str(hymn_number).zfill(3)}h_Wide.PPT"
     print("찬송가 경로 : ", hymn_path)
     hymn_ppt = Powerpoint()
     hymn_ppt.init_app()
     hymn_ppt.open_prs(hymn_path)
-    sleep(0.5)
+    sleep(SLEEP_TIME)
     hymn_ppt.copy_slide_all()
     print(hymn_ppt.count)
-    sleep(0.5)
+    sleep(SLEEP_TIME)
     first_slide, section_count = src_ppt.get_section_number(section_index)
     src_ppt.del_section(first_slide + 1, section_count - 2)
     win_number = src_ppt.app.Windows.Count  # 현재 ppt 창 번호 따기
     print("win_number", win_number)
     ###
-    sleep(1)
+    sleep(SLEEP_TIME)
     print("src_ppt 슬라이드 삽입위치", first_slide)
     src_ppt.app.Windows(2).View.GotoSlide(first_slide)
     src_ppt.app.Windows(2).Activate()  # 이전 창(소스ppt) 활성화
     src_ppt.app.CommandBars.ExecuteMso("PasteSourceFormatting")  # 원본소스유지 붙여넣기
     ###
     # src_ppt.paste_slide(first_slide + 1)
-    sleep(0.5)
+    sleep(SLEEP_TIME)
     # hymn_ppt.copy_desgin_slide(src_ppt.prs, first_slide + 1)
     src_ppt.change_hymn_number(hymn_number, section_index)
     hymn_ppt.prs.Close()
@@ -572,7 +567,7 @@ def executing():  # 실행
     hymn_number = input("두번째 찬송가 번호를 입력하세요: ")
     hymn_copy(hymn_number, src_ppt=src_ppt, section_index=8)
 
-    sleep(1)
+    sleep(SLEEP_TIME)
 
     src_ppt.change_transition()
 

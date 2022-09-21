@@ -1,3 +1,10 @@
+# 실행관련
+    # python 3.10 버전에서 pypptx 비호환 문제 발생, 3.9버전에서 실행 확인
+# 필요 라이브러리 설치
+    # pip install PySide6; pip install pywin32; pip install python-pptx;
+
+
+
 import sys
 from PySide6.QtWidgets import (
     QLabel,
@@ -57,7 +64,7 @@ class Form(QDialog):
         self.button6.clicked.connect(self.script6)
 
     def script0(self):
-        path = "c:\\Users\\Administrator\\Desktop\\WorkSpace\\pyPptx\\오전예배 (16x9)_2021_base.pptx"
+        path = "C:\\Users\\giveroot\\Documents\\주의길PPT\\오전예배 (16x9)_2021_base.pptx"
         self.src_ppt = bible_class.Powerpoint()
         self.src_ppt.init_app()
         src_prs = self.src_ppt.open_prs(path=path)
