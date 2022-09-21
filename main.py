@@ -18,6 +18,7 @@ from PySide6.QtWidgets import (
 )
 import bible_class
 
+SOURCE_PPT_PATH = "C:\\b\\오전예배 (16x9)_2022____.pptx"
 
 class Form(QDialog):
     def __init__(self, parent=None):
@@ -33,7 +34,7 @@ class Form(QDialog):
         self.button3 = QPushButton("본문 입력")
         self.button4 = QPushButton("두번째 찬송가 입력")
         self.button5 = QPushButton("전환애니메이션 추가")
-        self.button6 = QPushButton("교독문:인도자회중 추가 Beta")
+        # self.button6 = QPushButton("교독문:인도자회중 추가 Beta")
         # Create layout and add widgets
         layout = QVBoxLayout()
         layout.addWidget(self.button0)
@@ -50,7 +51,7 @@ class Form(QDialog):
         layout.addWidget(self.input4)
         layout.addWidget(self.button4)
         layout.addWidget(self.button5)
-        layout.addWidget(self.button6)
+        # layout.addWidget(self.button6)
 
         # Set dialog layout
         self.setLayout(layout)
@@ -61,41 +62,41 @@ class Form(QDialog):
         self.button3.clicked.connect(self.script3)
         self.button4.clicked.connect(self.script4)
         self.button4.clicked.connect(self.script5)
-        self.button6.clicked.connect(self.script6)
+        # self.button6.clicked.connect(self.script6)
 
     def script0(self):
-        path = "C:\\Users\\giveroot\\Documents\\주의길PPT\\오전예배 (16x9)_2021_base.pptx"
+        path = SOURCE_PPT_PATH
         self.src_ppt = bible_class.Powerpoint()
         self.src_ppt.init_app()
         src_prs = self.src_ppt.open_prs(path=path)
 
     def script1(self):
         re_no = self.input1.text()
-        bible_class.responsive_reading_copy(
+        bible_class.copy_responsive_reading(
             re_no, src_ppt=self.src_ppt, section_index=3
         )
 
     def script2(self):
         hymn_number = self.input2.text()
-        bible_class.hymn_copy(hymn_number, src_ppt=self.src_ppt, section_index=4)
+        bible_class.copy_hymn(hymn_number, src_ppt=self.src_ppt, section_index=4)
 
     def script3(self):
         raw = self.input3.toPlainText()
-        bible_class.text_copy(raw, src_ppt=self.src_ppt)
+        bible_class.copy_text(raw, src_ppt=self.src_ppt)
         pass
 
     def script4(self):
         hymn_number = self.input4.text()
-        bible_class.hymn_copy(hymn_number, src_ppt=self.src_ppt, section_index=8)
+        bible_class.copy_hymn(hymn_number, src_ppt=self.src_ppt, section_index=8)
         pass
 
     def script5(self):
         self.src_ppt.change_transition()
         pass
 
-    def script6(self):
-        bible_class.responsive_reading_add(src_ppt=self.src_ppt, section_index=3)
-        pass
+    # def script6(self):
+    #     bible_class.responsive_reading_add(src_ppt=self.src_ppt, section_index=3)
+    #     pass
 
 
 if __name__ == "__main__":

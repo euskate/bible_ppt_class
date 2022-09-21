@@ -18,9 +18,10 @@ from bible_function import (
     bookDict,
 )
 from bible_ppt import make_ppt_text, SAVEFILE_NAME
+from main import SOURCE_PPT_PATH
 
 RESPONSIVE_READING_PATH = "C:\\Users\\giveroot\\Documents\\주의길PPT\\교독문\\주의길_교독문"
-HYMN_PATH = "C:\\Users\\giveroot\\Documents\\주의길PPT\\새찬송가16x9"
+HYMN_PATH = "F:\\예배자료\\새찬송가16x9"
 SLEEP_TIME = 0.3
 
 
@@ -264,7 +265,7 @@ def hwp(hwp_path):
 #     prs = ppt.open_prs(SAVEFILE_NAME)
 
 
-def text_copy(raw, src_ppt):
+def copy_text(raw, src_ppt):
     (
         main_book,
         main_chapter,
@@ -297,51 +298,9 @@ def text_copy(raw, src_ppt):
     src_ppt.input_hwp(first_slide, resultList)
 
 
-# 안쓰는 함수
-def text_prs():
-
-    from bible_function import (
-        abbreviation,
-        parse_paragraph,
-        dict_contents,
-    )  # 성경 약자 반환 함수 # 정규식 파싱 함수 # 검색 구절을 사전형태로 반환하는 함수
-
-    from pptx import Presentation
-
-    # 파일이름 지정
-    template_path = "./verse_template.pptx"
-    save_file_name = "new-file-name.pptx"
-
-    # 본문 삽입
-    prs = Presentation(template_path)
-
-    # 성경구절 입력
-    paragraph = "사도행전 8장 1-8절"
-
-    # 파싱
-    main_book, main_chapter, main_verse_start, main_verse_end = parse_paragraph(
-        paragraph
-    )
-    # 리스트 & 딕셔너리 반환
-    keys, contentsDict = dict_contents(
-        main_book, main_chapter, main_verse_start, main_verse_end
-    )
-
-    for key in keys:
-        contents_slide_layout = prs.slide_layouts[1]
-        slide = prs.slides.add_slide(contents_slide_layout)
-        title = slide.shapes.title
-        contents = slide.placeholders[1]
-
-        title.text = key
-        contents.text = contentsDict[key]
-
-    prs.save(save_file_name)
-    return save_file_name
-
 
 # 교독문 복사 함수
-def responsive_reading_copy(re_no, src_ppt, section_index=3):
+def copy_responsive_reading(re_no, src_ppt, section_index=3):
     """
     교독문 복사 함수
         section_index : 구역순서 { '교독문' : 3  }
@@ -379,44 +338,44 @@ def responsive_reading_copy(re_no, src_ppt, section_index=3):
     ppt.prs.Close()
 
 
-# 교독문:인도자회중 추가 Beta 함수
-def responsive_reading_add(src_ppt, section_index=3):
-    """
-    인도자, 회중, 텍스트 상자 추가
-    section_index : 구역순서 { '교독문' : 3  }
-    """
-    first_slide, section_count = src_ppt.get_section_number(section_index)
-    for slide in range(first_slide + 2, first_slide + section_count - 1):
-        tmpbox1 = (
-            src_ppt.prs.Slides(slide)
-            .Shapes.AddTextbox(
-                1,
-                Left=20,
-                Top=65,
-                Width=75,
-                Height=50,
-            )
-            .TextFrame.TextRange
-        )
-        tmpbox1.Text = "인도자"
-        tmpbox1.Font.Bold = True
-        tmpbox2 = (
-            src_ppt.prs.Slides(slide)
-            .Shapes.AddTextbox(
-                1,
-                Left=20,
-                Top=200,
-                Width=75,
-                Height=50,
-            )
-            .TextFrame.TextRange
-        )
-        tmpbox2.Text = "회중"
-        tmpbox2.Font.Bold = True
+# # 교독문:인도자회중 추가 Beta 함수
+# def responsive_reading_add(src_ppt, section_index=3):
+#     """
+#     인도자, 회중, 텍스트 상자 추가
+#     section_index : 구역순서 { '교독문' : 3  }
+#     """
+#     first_slide, section_count = src_ppt.get_section_number(section_index)
+#     for slide in range(first_slide + 2, first_slide + section_count - 1):
+#         tmpbox1 = (
+#             src_ppt.prs.Slides(slide)
+#             .Shapes.AddTextbox(
+#                 1,
+#                 Left=20,
+#                 Top=65,
+#                 Width=75,
+#                 Height=50,
+#             )
+#             .TextFrame.TextRange
+#         )
+#         tmpbox1.Text = "인도자"
+#         tmpbox1.Font.Bold = True
+#         tmpbox2 = (
+#             src_ppt.prs.Slides(slide)
+#             .Shapes.AddTextbox(
+#                 1,
+#                 Left=20,
+#                 Top=200,
+#                 Width=75,
+#                 Height=50,
+#             )
+#             .TextFrame.TextRange
+#         )
+#         tmpbox2.Text = "회중"
+#         tmpbox2.Font.Bold = True
 
 
 # 찬양 복사 함수
-def hymn_copy(hymn_number, src_ppt, section_index):
+def copy_hymn(hymn_number, src_ppt, section_index):
     """
     찬양 복사 함수
         section_index : 구역순서 { '찬송 1' : 4,  '찬송2' : 8 }
@@ -526,7 +485,7 @@ def bible_prs(raw):
     return save_file_name, main_title
 
 
-def copy_text(raw, src_ppt):
+def dont_use_copy_text(raw, src_ppt):
     raw = hwp(hwp_path)
     ######## 정리 필요 ##########
     file_name, main_title = bible_prs(raw)
@@ -551,21 +510,21 @@ def copy_text(raw, src_ppt):
 
 def executing():  # 실행
     # 소스 ppt 열기
-    path = "c:\\Users\\Administrator\\Desktop\\WorkSpace\\pyPptx\\오전예배 (16x9)_2021_base.pptx"
+    path = SOURCE_PPT_PATH
     src_ppt = Powerpoint()
     src_ppt.init_app()
     src_prs = src_ppt.open_prs(path=path)
 
     re_no = input("교독문 번호를 입력하세요: ")
-    responsive_reading_copy(re_no, src_ppt=src_ppt, section_index=3)
+    copy_responsive_reading(re_no, src_ppt=src_ppt, section_index=3)
 
     hymn_number = input("첫번째 찬송가 번호를 입력하세요: ")
-    hymn_copy(hymn_number, src_ppt=src_ppt, section_index=4)
+    copy_hymn(hymn_number, src_ppt=src_ppt, section_index=4)
 
     raw = hwp(hwp_path)
 
     hymn_number = input("두번째 찬송가 번호를 입력하세요: ")
-    hymn_copy(hymn_number, src_ppt=src_ppt, section_index=8)
+    copy_hymn(hymn_number, src_ppt=src_ppt, section_index=8)
 
     sleep(SLEEP_TIME)
 
