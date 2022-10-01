@@ -17,8 +17,8 @@ from PySide6.QtWidgets import (
     QDialog,
 )
 import bible_class
+from PATH import SOURCE_PPT_PATH
 
-SOURCE_PPT_PATH = "C:\\b\\오전예배 (16x9)_2022____.pptx"
 
 class Form(QDialog):
     def __init__(self, parent=None):
