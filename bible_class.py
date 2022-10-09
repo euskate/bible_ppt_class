@@ -20,8 +20,8 @@ from bible_function import (
 from bible_ppt import make_ppt_text, SAVEFILE_NAME
 from main import SOURCE_PPT_PATH
 
-RESPONSIVE_READING_PATH = "C:\\Users\\giveroot\\Documents\\주의길PPT\\교독문\\주의길_교독문"
-HYMN_PATH = "F:\\예배자료\\새찬송가16x9"
+RESPONSIVE_READING_PATH = r"F:\예배자료\교독문\주의길_교독문"
+HYMN_PATH = r"F:\예배자료\새찬송가16x9"
 SLEEP_TIME = 0.3
 
 
