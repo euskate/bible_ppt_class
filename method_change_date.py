@@ -15,7 +15,7 @@ def change_date(src_ppt):
     return
 
 
-# 테스트 코드
+# # 테스트 코드
 # from bible_class import Powerpoint
 # from PATH import SOURCE_PPT_PATH
 
