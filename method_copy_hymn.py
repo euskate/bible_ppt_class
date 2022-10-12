@@ -28,7 +28,7 @@ def copy_hymn(hymn_number, src_ppt, section_index):
     try:
       src_ppt.del_section(first_slide + 1, section_count - 2)
     except:
-      print("이전가 삭제 실패 예외 발생")
+      print("이전 찬송가 없음 발생")
       pass
     # 몇번 째 윈도우 창 확인
     sleep(SLEEP_TIME)
