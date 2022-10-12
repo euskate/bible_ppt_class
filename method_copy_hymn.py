@@ -1,7 +1,7 @@
 # 찬양 복사 함수 : main script2, script4
 
 from time import sleep
-from PATH import HYMN_PATH
+from PATH import HYMN_PATH, SOURCE_PPT_PATH
 from bible_class import Powerpoint
 
 # 대기 시간 설정 (초)
@@ -30,10 +30,16 @@ def copy_hymn(hymn_number, src_ppt, section_index):
     except:
       print("이전가 삭제 실패 예외 발생")
       pass
-    # 소스 PPT 활성화하여 원본소스 붙여넣기
+    # 몇번 째 윈도우 창 확인
     sleep(SLEEP_TIME)
-    src_ppt.app.Windows(2).View.GotoSlide(first_slide)
-    src_ppt.app.Windows(2).Activate()  # 이전 창(소스ppt) 활성화
+    source_name = SOURCE_PPT_PATH.split('\\')[-1]
+    windows_number = 0
+    for i, win in enumerate(src_ppt.app.Windows):
+      if win.Caption == source_name:
+        windows_number = i+1
+    # 소스 PPT 활성화하여 원본소스 붙여넣기
+    src_ppt.app.Windows(windows_number).View.GotoSlide(first_slide)
+    src_ppt.app.Windows(windows_number).Activate()  # 이전 창(소스ppt) 활성화
     src_ppt.app.CommandBars.ExecuteMso("PasteSourceFormatting")  # 원본소스유지 붙여넣기
     # 찬양 맨 앞장 번호 바꾸기
     sleep(SLEEP_TIME)
