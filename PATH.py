@@ -3,7 +3,8 @@ import os
 desktop_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
 app_path = os.path.dirname(os.path.abspath(__file__))
 
-SOURCE_PPT_PATH = os.path.join(app_path, r"오전예배_source.pptx")
+# SOURCE_PPT_PATH = os.path.join(app_path, r"오전예배_source.pptx")
+SOURCE_PPT_PATH = os.path.join(desktop_path, r"오전예배.pptx")
 OUTPUT_SAVE_PATH = os.path.join(desktop_path, r"오전예배.pptx")
 
 RESPONSIVE_READING_PATH = r"F:\예배자료\교독문\주의길_교독문"
