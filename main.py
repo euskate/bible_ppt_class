@@ -141,6 +141,12 @@ class Form(QDialog):
             print("전환애니메이션 추가 예외발생")
             pass
         try:
+            self.src_ppt.save_backup_presentation(OUTPUT_SAVE_PATH)
+            print("백업경로 저장 성공")
+        except:
+            print("백업경로 저장 예외발생")
+            pass
+        try:
             self.src_ppt.save_prs(OUTPUT_SAVE_PATH)
             print("경로 저장 성공")
         except:

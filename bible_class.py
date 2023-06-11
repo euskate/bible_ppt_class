@@ -5,7 +5,7 @@
 
 import json
 import win32com.client
-from time import sleep
+from time import sleep, localtime
 import os
 from bible_function import (
     abbreviation,
@@ -41,6 +41,16 @@ class Powerpoint:
     # 프레젠테이션 저장하기
     def save_prs(self, path):
         self.path = path
+        self.prs.SaveAs(path)
+
+    # 프레젠테이션 백업 저장하기
+    def save_backup_presentation(self, path):
+        BACKUP_PATH = "C:\\Users\\방송실\\Desktop\\지난_자료들\\오전예배_백업\\"
+        dt = localtime()
+        year = dt.tm_year
+        month = dt.tm_mon
+        day = dt.tm_mday
+        self.path = BACKUP_PATH + f"오전예배_{year}{month}{day}"
         self.prs.SaveAs(path)
 
     # 프레젠테이션 닫기
