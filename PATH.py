@@ -10,6 +10,7 @@ OUTPUT_SAVE_PATH = os.path.join(desktop_path, r"오전예배.pptx")
 RESPONSIVE_READING_PATH = r"F:\예배자료\교독문\주의길_교독문"
 HYMN_PATH = r"F:\예배자료\새찬송가16x9"
 
+BACKUP_PATH = "C:\\Users\\방송실\\Desktop\\지난_자료들\\오전예배_백업\\"
 # # test code
 # print(SOURCE_PPT_PATH)
 # print(OUTPUT_SAVE_PATH)

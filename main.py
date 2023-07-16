@@ -4,6 +4,7 @@
     # pip install PySide6; pip install pywin32; pip install python-pptx;
 
 import sys
+from time import sleep
 from PySide6.QtWidgets import (
     QLabel,
     QLineEdit,
@@ -16,7 +17,7 @@ from PySide6.QtWidgets import (
 )
 import bible_class
 import method_input_responsive_reading, method_copy_hymn, method_copy_text, method_change_date
-from PATH import SOURCE_PPT_PATH, OUTPUT_SAVE_PATH
+from PATH import SOURCE_PPT_PATH, OUTPUT_SAVE_PATH, BACKUP_PATH
 
 
 class Form(QDialog):
@@ -105,6 +106,16 @@ class Form(QDialog):
             print("파워포인트 열기 예외발생")
             pass
         try:
+            self.src_ppt.save_backup_presentation(BACKUP_PATH)
+            sleep(1)
+            self.src_ppt.close_prs()
+            sleep(1)
+            self.script0()
+            print("백업경로 저장 성공")
+        except:
+            print("백업경로 저장 예외발생")
+            pass        
+        try:
             method_change_date.change_date(self.src_ppt)
             print("날짜변경 성공")
         except:
@@ -139,12 +150,6 @@ class Form(QDialog):
             print("전환 애니메이션 추가 성공")
         except:
             print("전환애니메이션 추가 예외발생")
-            pass
-        try:
-            self.src_ppt.save_backup_presentation(OUTPUT_SAVE_PATH)
-            print("백업경로 저장 성공")
-        except:
-            print("백업경로 저장 예외발생")
             pass
         try:
             self.src_ppt.save_prs(OUTPUT_SAVE_PATH)
