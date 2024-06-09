@@ -48,8 +48,8 @@ class Powerpoint:
     def save_backup_presentation(self, path):
         dt = date.today() - timedelta(7)
         year = dt.year
-        month = dt.month
-        day = dt.day
+        month = str(dt.month).zfill(2)
+        day = str(dt.day).zfill(2)
         full_backup_path = path + f"오전예배_{year}{month}{day}"
         self.prs.SaveAs(full_backup_path)
 
