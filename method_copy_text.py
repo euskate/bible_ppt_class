@@ -24,9 +24,17 @@ def copy_text(raw, src_ppt):
     # 소스 PPT에서 성경봉독 삽입 위치 찾기 > 이전 내용 지우기 > 부제목변경 > 삽입
     first_slide, section_count = src_ppt.get_section("성경봉독")
     src_ppt.del_section(first_slide + 1, section_count - 2)
+    subtitle = ""
+    
+    # 시편일 경우 '편'으로 부제 변경
+    if (main_book == "시편") : 
+        subtitle = f"{bookDict[main_book]} {main_chapter}편 {main_verse_start}-{main_verse_end}절"
+    else :
+        subtitle = f"{bookDict[main_book]} {main_chapter}장 {main_verse_start}-{main_verse_end}절"
+
     src_ppt.change_subtitle(
         first_slide,
-        f"{bookDict[main_book]} {main_chapter}장 {main_verse_start}-{main_verse_end}절",
+        subtitle,
     )
     src_ppt.input_verse(first_slide, keys, contentsDict)
     (
