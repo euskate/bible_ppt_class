@@ -163,7 +163,10 @@ class Powerpoint:
         for book, chapter, verse_start, verse_end, contents in resultList:
             slide += 1  # 섹션 시작 슬라이드 다음부터
             if not verse_end:
-                key = f"{bookDict[book]} {chapter}장 {verse_start}절"
+                if book == "시":  # 시편일 경우 "편"으로 추가
+                    key = f"{bookDict[book]} {chapter}장 {verse_start}절"
+                else:  # 일반적인 경우
+                    key = f"{bookDict[book]} {chapter}장 {verse_start}절"
                 # pptx
                 self.prs.Slides.AddSlide(slide, self.prs.SlideMaster.CustomLayouts(2))
                 self.prs.Slides(
@@ -174,7 +177,10 @@ class Powerpoint:
                 ]  # 내용 텍스트
 
             else:
-                key = f"{bookDict[book]} {chapter}장 {verse_start}-{verse_end}절"
+                if book == "시":  # 시편일 경우 "편"으로 추가
+                    key = f"{bookDict[book]} {chapter}편 {verse_start}-{verse_end}절"
+                else:  # 일반적인 경우
+                    key = f"{bookDict[book]} {chapter}장 {verse_start}-{verse_end}절"
 
                 self.prs.Slides.AddSlide(slide, self.prs.SlideMaster.CustomLayouts(3))
                 self.prs.Slides(

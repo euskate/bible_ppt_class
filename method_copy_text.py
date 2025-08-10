@@ -27,7 +27,7 @@ def copy_text(raw, src_ppt):
     subtitle = ""
     
     # 시편일 경우 '편'으로 부제 변경
-    if (main_book == "시편") : 
+    if (main_book == "시") : 
         subtitle = f"{bookDict[main_book]} {main_chapter}편 {main_verse_start}-{main_verse_end}절"
     else :
         subtitle = f"{bookDict[main_book]} {main_chapter}장 {main_verse_start}-{main_verse_end}절"
